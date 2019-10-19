@@ -55,7 +55,8 @@
 </div>
 
 <div class="main" id="main_body">
-  <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
+  <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0"
+          scrolling="auto"></iframe>
 </div>
 
 <script>
@@ -108,11 +109,20 @@
 
 </script>
 
-
 <script src="./tool/config.js"></script>
 <script src="./tool/user.js"></script>
 
 <script>
+  // 获取用户的信息，渲染到页面上
+  USER.get_userInfo({
+    callback: function (res) {
+      if (res.code === 200) {
+        $('.user_info span').text(res.data.nickname)
+            .siblings('img').prop('src', res.data.user_pic);
+        $('.user_center_link img').prop('src', res.data.user_pic);
+      }
+    }
+  });
   // 点击退出
   $('#logOut').on('click', function (e) {
     e.preventDefault();
@@ -127,10 +137,7 @@
     } else {
       return;
     }
-  })
-
+  });
 </script>
-
-
 </body>
 </html>
