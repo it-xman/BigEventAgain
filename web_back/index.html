@@ -50,19 +50,17 @@
   <div class="user_center_link">
     <a href="user.html" onclick="setMenu(3,0)" target="main_frame">个人中心</a>
     <img src="images/2.jpg" alt="person">
-    <a href="#"><i class="iconfont icon-tuichu"></i> 退出</a>
+    <a href="#" id="logOut"><i class="iconfont icon-tuichu"></i> 退出</a>
   </div>
 </div>
 
 <div class="main" id="main_body">
-  <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0"
-          scrolling="auto"></iframe>
+  <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
 </div>
-
 
 <script>
   var $level01 = $('.level01');
-  var $subli = $('.level02 li')
+  var $subli = $('.level02 li');
   $level01.click(function () {
     $level01.not($(this)).removeClass('active');
     $(this).addClass('active');
@@ -73,7 +71,7 @@
     } else {
       $subli.removeClass('active');
     }
-  })
+  });
 
   $subli.click(function () {
     $subli.not($(this)).removeClass('active');
@@ -83,7 +81,7 @@
       $level01.removeClass('active');
       $(this).parent().prev().addClass('active');
     }
-  })
+  });
 
   function resizeFrame() {
     var frame_w = $('#main_body').outerWidth();
@@ -95,7 +93,7 @@
 
   $(window).resize(function () {
     resizeFrame();
-  })
+  });
 
 
   function setMenu(m, n) {
@@ -109,6 +107,30 @@
   }
 
 </script>
+
+
+<script src="./tool/config.js"></script>
+<script src="./tool/user.js"></script>
+
+<script>
+  // 点击退出
+  $('#logOut').on('click', function (e) {
+    e.preventDefault();
+    if (confirm('确认要退出吗?')) {
+      USER.user_logout({
+        callback: function (res) {
+          if (res.code === 200) {
+            location.href = './login.html';
+          }
+        }
+      })
+    } else {
+      return;
+    }
+  })
+
+</script>
+
 
 </body>
 </html>

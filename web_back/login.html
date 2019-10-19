@@ -25,7 +25,7 @@
       <i class="iconfont icon-key"></i>
       <input type="text" class="input_txt" placeholder="邮箱/手机号">
       <input type="password" class="input_pass" placeholder="密码">
-      <input type="button" class="input_sub" value="登 录">
+      <input type="submit" class="input_sub" value="登 录">
     </form>
   </div>
 
@@ -38,6 +38,7 @@
 
 <script>
   $('.input_sub').on('click', function (e) {
+    e.preventDefault();
     var username = $('.input_txt').val();
     var password = $('.input_pass').val();
     if (username.trim() === '' || password.trim() === '') {
