@@ -30,3 +30,87 @@
 - 进入页面就获取用户的信息
 - 发送ajax请求，将请求回来的数据渲染到页面上
 
+## 4. 个人中心页面实现修改用户信息的功能
+
+- 实现点击左侧菜单栏，没有页面跳转，只在一定范围内更新了显示的页面
+  - 使用了`iframe`标签
+  - 该标签可以实现在一个页面中嵌入一个子页面
+    - 在该标签的src属性里放入不同的地址，就在子页面里显示不同的页面，可以设置大小
+
+- 获取表单信息，使用到了`FormData()`
+
+  - 使用FormData需要给表单元素设置name属性
+  - `let fd = new FormData('传入的表单元素')[0] `
+  - fd.append()可添加字段
+    - 两个参数, 参数为字符串格式
+
+  - 使用ajax发送formData需要注意设置两条属性
+
+    ```javascript
+    contentType: false,
+    processData: false,
+    ```
+
+  - 传入的data参数设置为fd
+
+- 点击到个人中心
+
+  - 给服务端发送请求，获取用户的所有信息
+  - 将请求回来的数据渲染到表单里
+
+- 点击修改按钮，获取所有表单里的内容
+
+  - 如有为空，提示用户将信息填写完整
+
+    - 用到bootstrap的模态框
+
+    - 需要引入bootstrap的js文件和css文件
+
+      ```html
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      ```
+
+  - 如果不为空，将表单信息的数据发送到服务端，
+
+  - 页面提示信息修改成功，1.5秒后会跳转到登录页面
+
+- 给需要上传的头像那里添加图片预览
+
+  ```javascript
+  // 点击选择文件按钮添加改变事件
+  $('#user_pic').on('change', function () {
+      console.log(this)
+      console.log(this.files)
+      console.log(this.files[0])
+      console.log($(this))
+      console.log($(this)[0])
+      console.log($(this)[0].files)
+      console.log($(this)[0].files[0])
+  // 获取图片临时地址
+  // jQuery方式
+  let tempUrl = URL.createObjectURL($(this[0].files[0]);
+  // 因为this的指向问题？ 这里有一个改变事件，点击以后this指向这个input，type=file的标签
+  // 所以可以直接使用this.files[0]来获取需上传文件信息？
+  let tempUrlY = URL.createObjectURL(this.files[0]);
+  $('.user_pic').prop('src', tempUrl)
+  })
+  ```
+
+## 5. 

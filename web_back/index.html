@@ -114,7 +114,7 @@
 
 <script>
   // 获取用户的信息，渲染到页面上
-  USER.get_userInfo({
+  USER.get_user({
     callback: function (res) {
       if (res.code === 200) {
         $('.user_info span').text(res.data.nickname)
