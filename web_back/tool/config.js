@@ -7,3 +7,6 @@ const GET_USERINFO = BASE_USER + 'admin/userinfo_get';
 const EDIT_USERINFO = BASE_USER + 'admin/userinfo_edit';
 
 const GET_CATEGORY = BASE_USER + 'admin/category_search';
+const ADD_CATEGORY = BASE_USER + 'admin/category_add';
+const EDIT_CATEGORY = BASE_USER + 'admin/category_edit';
+const DEL_CATEGORY = BASE_USER + 'admin/category_delete';
