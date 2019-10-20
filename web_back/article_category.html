@@ -28,46 +28,46 @@
         <th class="text-center" width="100">操作</th>
       </tr>
       </thead>
-      <tbody>
-      <tr>
-        <td>未分类</td>
-        <td>uncategorized</td>
-        <td class="text-center">
-          <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-             class="btn btn-info btn-xs">编辑</a>
-          <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
-        </td>
-      </tr>
+      <tbody class="tbody">
+      <!--      <tr>-->
+      <!--        <td>未分类</td>-->
+      <!--        <td>uncategorized</td>-->
+      <!--        <td class="text-center">-->
+      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"-->
+      <!--             class="btn btn-info btn-xs">编辑</a>-->
+      <!--          <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>-->
+      <!--        </td>-->
+      <!--      </tr>-->
 
-      <tr>
-        <td>奇趣事</td>
-        <td>funny</td>
-        <td class="text-center">
-          <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
-             class="btn btn-info btn-xs">编辑</a>
-          <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
-        </td>
-      </tr>
+      <!--      <tr>-->
+      <!--        <td>奇趣事</td>-->
+      <!--        <td>funny</td>-->
+      <!--        <td class="text-center">-->
+      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"-->
+      <!--             class="btn btn-info btn-xs">编辑</a>-->
+      <!--          <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>-->
+      <!--        </td>-->
+      <!--      </tr>-->
 
-      <tr>
-        <td>会生活</td>
-        <td>living</td>
-        <td class="text-center">
-          <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
-             class="btn btn-info btn-xs">编辑</a>
-          <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
-        </td>
-      </tr>
+      <!--      <tr>-->
+      <!--        <td>会生活</td>-->
+      <!--        <td>living</td>-->
+      <!--        <td class="text-center">-->
+      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"-->
+      <!--             class="btn btn-info btn-xs">编辑</a>-->
+      <!--          <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>-->
+      <!--        </td>-->
+      <!--      </tr>-->
 
-      <tr>
-        <td>爱旅行</td>
-        <td>travel</td>
-        <td class="text-center">
-          <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-             class="btn btn-info btn-xs">编辑</a>
-          <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
-        </td>
-      </tr>
+      <!--      <tr>-->
+      <!--        <td>爱旅行</td>-->
+      <!--        <td>travel</td>-->
+      <!--        <td class="text-center">-->
+      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"-->
+      <!--             class="btn btn-info btn-xs">编辑</a>-->
+      <!--          <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>-->
+      <!--        </td>-->
+      <!--      </tr>-->
       </tbody>
       <tfoot>
       <tr>
@@ -79,6 +79,7 @@
     </table>
   </div>
 </div>
+
 
 <div class="modal fade" id="addModal">
   <div class="modal-dialog" role="document">
@@ -107,29 +108,38 @@
   </div>
 </div>
 
+
+<script src="./js/art-template.js"></script>
+<script src="./tool/config.js"></script>
+<script src="./tool/article.js"></script>
+
+<script type="text/html" id="category">
+  {{each data v}}
+  <tr>
+    <td>{{v.name}}</td>
+    <td>{{v.slug}}</td>
+    <td class="text-center">
+      <a href="javascript:;" class="btn btn-info btn-xs"   id="edit" data-id="{{v.id}}">编辑</a>
+      <a href="javascript:;" class="btn btn-danger btn-xs" id="del" data-id="{{v.id}}">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+
+
+</script>
 <script>
-  $('#addModal').modal({
-    show: false,
-    backdrop: false
-  });
-
-  $('#model_shutoff').click(function () {
-    alert('shutoff');
-    $('#addModal').modal('hide');
-  });
-
-  $('#model_add').click(function () {
-    alert('add');
-    $('#addModal').modal('hide');
-  });
-
-  $('.category_table').delegate('a', 'click', function () {
-    if ($(this).hasClass('btn-info')) {
-      $('#addModal .modal-title').html('修改分类名称');
-      $('#addModal').modal('show');
+  ARTICLE.get_category({
+    callback: function (res) {
+      console.log(res)
+      let mainStr = template('category', res);
+      console.log(mainStr);
+      $('.tbody').append(mainStr);
     }
   })
+
+
 </script>
+
 
 </body>
 
