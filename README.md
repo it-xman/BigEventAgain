@@ -152,25 +152,63 @@
   - 取消：返回。
 
 ```javascript
-  // 点击删除按钮
+// 点击删除按钮
+// 使用箭头函数解决this指向问题
 
-$('.tbody').on('click', '#del',
-function (e) {
-e.preventDefault();
-if (confirm('确定要删除该条文章分类吗？')) {
-ARTICLE.del_category({
-data: {
-   id: $(this).attr('data-id'),
-},
-callback:
-(res) => {
-if (res.code === 200) {                $(this).parents('tr').remove();
-console.log(this)
-}
-}
-})
-}
-}
-)
+  $('.tbody').on('click', '#del',
+      function (e) {
+        e.preventDefault();
+        if (confirm('确定要删除该条文章分类吗？')) {
+          ARTICLE.del_category({
+            data: {
+              id: $(this).attr('data-id'),
+            },
+            callback:
+                (res) => {
+                  if (res.code === 200) {
+                    $(this).parents('tr').remove();
+                    console.log(this)
+                  }
+                }
+          })
+        }
+      }
+  );
 ```
 
+```javascript
+//将this的指向在函数外面赋值给that，确保that一直指向点击事件
+  $('.tbody').on('click', '#del', function (e) {
+        e.preventDefault();
+        let that = this;
+        if (confirm('确定要删除该条文章分类吗？')) {
+          ARTICLE.del_category({
+            data: {
+              id: $(this).attr('data-id'),
+            },
+            callback: function (res) {
+              if (res.code === 200) {
+                $(that).parents('tr').remove();
+              }
+            }
+          })
+        }
+      }
+  )
+
+```
+
+## 6. 文章列表功能
+
+- 点击文章列表，获取数据，将数据渲染到页面上
+  - 注意需要给谁设置唯一标识，或者添加自定义属性
+- 筛选功能
+  - 所有分类获取到文章分类里的name属性值，渲染到所有分类的选项里
+  - 所有状态有草稿和已发布，仔细观察需要为其添加自定义属性或者name属性
+  - 点击筛选按钮向服务端发送请求，将符合条件的数据返回来并渲染到页面上
+- 底部的分页栏
+  - 用到的插件要熟练使用，熟悉插件的自带方法
+  - twbsPagination,一款js插件，需要引bootstrap的样式文件
+- 点击编辑按钮，跳转到对应的文章编辑页面
+- 点击删除按钮，将对应的文章信息删除调
+- 点击发表文章按钮，跳转到发表文章页面

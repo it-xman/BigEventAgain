@@ -23,60 +23,140 @@
     文章编辑
   </div>
   <div class="container-fluid common_con">
-    <form class="form-horizontal article_form">
+    <form class="form-horizontal article_form" id="fd">
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
+        <label for="title" class="col-sm-2 control-label">文章标题：</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputEmail3" value="文章标题文字">
+          <input type="text" class="form-control" id="title" value="文章标题文字" name="title">
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
+        <label for="cover" class="col-sm-2 control-label">文章封面：</label>
         <div class="col-sm-10">
           <img src="images/pic06.jpg" class="article_cover">
-          <input type="file" id="exampleInputFile">
+          <input type="file" id="cover" name="cover">
         </div>
       </div>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
+        <label for=" " class="col-sm-2 control-label">文章类别：</label>
         <div class="col-sm-4">
-          <select class="form-control">
-            <option>类别一</option>
-            <option>类别二</option>
-            <option>类别三</option>
-            <option selected>类别四</option>
-            <option>类别五</option>
+          <select class="form-control" name="type" id="type">
+
           </select>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">发布时间：</label>
+        <label for="in" class="col-sm-2 control-label">发布时间：</label>
         <div class="col-sm-4">
-
           <div class="input-group">
-            <input type="text" class="form-control" value="2019-05-17" id="dateinput">
+            <input type="text" class="form-control" readonly name="dateinput" id="dateinput">
             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"
-                                        onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
-                                        class="iconfont icon-icondate"></i></button>
-                            </span>
+              <button class="btn btn-default" type="button"
+                      onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})" id="in">
+                <i class="iconfont icon-icondate"></i>
+              </button>
+            </span>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
+        <label for="rich_content" class="col-sm-2 control-label">文章内容：</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="rich_content" name="content" placeholder="文章内容" value="文章内容">
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-success">修改</button>
+          <button type="submit" class="btn btn-success" id="change">修改</button>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<script src="./js/art-template.js"></script>
+<script src="./tool/config.js"></script>
+<script src="./tool/article.js"></script>
+
+<script type="text/html" id="cate">
+  {{each data v}}
+
+  <option value="{{v.id}}"> {{v.name}}</option>
+
+  {{/each}}
+</script>
+
+<script>
+  let id = location.search.split('=')[1];
+
+  ARTICLE.get_category({
+    callback: function (res) {
+      let cate = template('cate', res);
+      $('#type').html(cate);
+    }
+  });
+
+  // 获取列表信息添加在文本域内
+  ARTICLE.get_list({
+    data: {
+      id: id,
+    },
+    callback: function (res) {
+      if (res.code === 200) {
+        let data = res.data;
+        $('#title').val(data.title);
+        $('.article_cover').prop('src', data.cover);
+        $('#type').val(data.type);
+        $('#rich_content').val(data.content);
+        $('#dateinput').val(data.date);
+      }
+    }
+  });
+
+  // 点击修改按钮
+  $('#change').on('click', function (e) {
+    e.preventDefault();
+    const fd = new FormData($('#fd')[0]);
+    let title = fd.get('title');
+    let cover = fd.get('cover');
+    let type = fd.get('type');
+    let content = fd.get('content');
+    let date = fd.get('dateinput');
+    console.log(cover, title, type, content, date);
+
+    fd.append('id', id);
+
+    if (
+        title.trim() === '' ||
+        type.trim() === '' ||
+        content.trim() === '' ||
+        date.trim() === ''
+    ) {
+      alert('请将内容填写完整');
+    } else {
+      ARTICLE.edit_list({
+        data: {
+          id: id,
+          title: title,
+          cover: cover,
+          type: type,
+          date: date,
+          content: content
+        },
+        callback: function (res) {
+          console.log(res)
+        }
+      })
+    }
+  });
+
+  //图片预览
+  $('#cover').on('change', function () {
+    let url = URL.createObjectURL(this.files[0]);
+    $('.article_cover').prop('src', url);
+  })
+
+</script>
 
 </body>
 

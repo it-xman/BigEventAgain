@@ -29,45 +29,7 @@
       </tr>
       </thead>
       <tbody class="tbody">
-      <!--      <tr>-->
-      <!--        <td>未分类</td>-->
-      <!--        <td>uncategorized</td>-->
-      <!--        <td class="text-center">-->
-      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"-->
-      <!--             class="btn btn-info btn-xs">编辑</a>-->
-      <!--          <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>-->
-      <!--        </td>-->
-      <!--      </tr>-->
 
-      <!--      <tr>-->
-      <!--        <td>奇趣事</td>-->
-      <!--        <td>funny</td>-->
-      <!--        <td class="text-center">-->
-      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"-->
-      <!--             class="btn btn-info btn-xs">编辑</a>-->
-      <!--          <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>-->
-      <!--        </td>-->
-      <!--      </tr>-->
-
-      <!--      <tr>-->
-      <!--        <td>会生活</td>-->
-      <!--        <td>living</td>-->
-      <!--        <td class="text-center">-->
-      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"-->
-      <!--             class="btn btn-info btn-xs">编辑</a>-->
-      <!--          <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>-->
-      <!--        </td>-->
-      <!--      </tr>-->
-
-      <!--      <tr>-->
-      <!--        <td>爱旅行</td>-->
-      <!--        <td>travel</td>-->
-      <!--        <td class="text-center">-->
-      <!--          <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"-->
-      <!--             class="btn btn-info btn-xs">编辑</a>-->
-      <!--          <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>-->
-      <!--        </td>-->
-      <!--      </tr>-->
       </tbody>
       <tfoot>
       <tr>
@@ -208,51 +170,45 @@
   });
 
 
-  // function (e) {
-  //   e.preventDefault();
-  //   let that = this;
-  //   if (confirm('确定要删除该条文章分类吗？')) {
-  //     ARTICLE.del_category({
-  //       data: {
-  //         id: $(this).attr('data-id'),
-  //       },
-  //       callback: function (res) {
-  //         if (res.code === 200) {
-  //           // $(that).parents('tr').remove();
-  //           console.log($(this).bind(m))
-  //         }
-  //       }
-  //     })
-  //   }
-  // }
-  //
-  // function (res) {
-  //   if (res.code === 200) {
-  //     $(this).parents('tr').remove();
-  //   }
-  // }
-
-  // 点击删除按钮
-
-  $('.tbody').on('click', '#del',
-      function (e) {
+  $('.tbody').on('click', '#del', function (e) {
         e.preventDefault();
+        let that = this;
         if (confirm('确定要删除该条文章分类吗？')) {
           ARTICLE.del_category({
             data: {
               id: $(this).attr('data-id'),
             },
-            callback:
-                (res) => {
-                  if (res.code === 200) {
-                    $(this).parents('tr').remove();
-                    console.log(this)
-                  }
-                }
+            callback: function (res) {
+              if (res.code === 200) {
+                $(that).parents('tr').remove();
+              }
+            }
           })
         }
       }
   )
+
+
+  // 点击删除按钮
+  // $('.tbody').on('click', '#del',
+  //     function (e) {
+  //       e.preventDefault();
+  //       if (confirm('确定要删除该条文章分类吗？')) {
+  //         ARTICLE.del_category({
+  //           data: {
+  //             id: $(this).attr('data-id'),
+  //           },
+  //           callback:
+  //               (res) => {
+  //                 if (res.code === 200) {
+  //                   $(this).parents('tr').remove();
+  //                   console.log(this)
+  //                 }
+  //               }
+  //         })
+  //       }
+  //     }
+  // );
 
 
 </script>

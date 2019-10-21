@@ -29,5 +29,41 @@ const ARTICLE = {
       data: options.data,
       success: options.callback,
     })
+  },
+  get_list: function (options) {
+    $.ajax({
+      type: 'get',
+      url: GET_LIST,
+      data: options.data,
+      success: options.callback,
+    })
+  },
+  filter_list: function (options) {
+    $.ajax({
+      type: 'get',
+      url: GET_LIST,
+      data: options.data,
+      success: options.callback,
+    })
+  },
+  del_list: function (options) {
+    $.ajax({
+      type: 'get',
+      url: DEL_LIST,
+      data: options.data,
+      success: options.callback,
+    })
+  },
+  edit_list: function (options) {
+    $.ajax({
+      type: 'post',
+      url: EDIT_LIST,
+      data: options.data,
+      contentType: false,
+      processData: false,
+      success: options.callback,
+    })
   }
+
+
 };
