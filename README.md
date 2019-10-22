@@ -212,3 +212,23 @@
 - 点击编辑按钮，跳转到对应的文章编辑页面
 - 点击删除按钮，将对应的文章信息删除调
 - 点击发表文章按钮，跳转到发表文章页面
+
+### 问题：
+
+发布文章完成，接口有问题，无法完成数据的发送，使用到了formData，给发布和存为草稿设置固定的value值，然后使用formData的append方法添加state状态，该状态为点击按钮的value值
+
+- 无法完成编辑接口的数据发送，无法完成发布文章接口的数据发送。
+
+- 注意点：使用FormData发送数据，需要找到表单，使用get('name值')获取表单的某一个元素的值，append('name'， '要添加的值')可以添加向服务端发送的数据，使用ajax发送数据时需要设置两条属性:
+
+  ```javascript
+  contentType: false,
+  processData: false,
+  ```
+
+- 图片预览功能
+
+  ```javascript
+  //获取文件的临时地址
+  let url = URL.createObjectURL(this.files[0]);
+  ```
