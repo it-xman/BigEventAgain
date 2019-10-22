@@ -23,7 +23,7 @@
     文章编辑
   </div>
   <div class="container-fluid common_con">
-    <form class="form-horizontal article_form" id="fd">
+    <form class="form-horizontal article_form fd">
       <div class="form-group">
         <label for="title" class="col-sm-2 control-label">文章标题：</label>
         <div class="col-sm-10">
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label for=" " class="col-sm-2 control-label">文章类别：</label>
+        <label for="" class="col-sm-2 control-label">文章类别：</label>
         <div class="col-sm-4">
           <select class="form-control" name="type" id="type">
 
@@ -49,10 +49,10 @@
         <label for="in" class="col-sm-2 control-label">发布时间：</label>
         <div class="col-sm-4">
           <div class="input-group">
-            <input type="text" class="form-control" readonly name="dateinput" id="dateinput">
+            <input type="text" class="form-control" readonly name="dateinput" id="dateinput" placeholder="YYYY-MM-DD">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button"
-                      onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})" id="in">
+              <button class="btn btn-default" id="in" type="button"
+                      onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})">
                 <i class="iconfont icon-icondate"></i>
               </button>
             </span>
@@ -91,8 +91,10 @@
 
   ARTICLE.get_category({
     callback: function (res) {
-      let cate = template('cate', res);
-      $('#type').html(cate);
+      if (res.code === 200) {
+        let cate = template('cate', res);
+        $('#type').html(cate);
+      }
     }
   });
 
@@ -116,7 +118,7 @@
   // 点击修改按钮
   $('#change').on('click', function (e) {
     e.preventDefault();
-    const fd = new FormData($('#fd')[0]);
+    const fd = new FormData($('.fd')[0]);
     let title = fd.get('title');
     let cover = fd.get('cover');
     let type = fd.get('type');
@@ -135,14 +137,7 @@
       alert('请将内容填写完整');
     } else {
       ARTICLE.edit_list({
-        data: {
-          id: id,
-          title: title,
-          cover: cover,
-          type: type,
-          date: date,
-          content: content
-        },
+        data: fd,
         callback: function (res) {
           console.log(res)
         }

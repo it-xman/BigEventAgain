@@ -63,7 +63,17 @@ const ARTICLE = {
       processData: false,
       success: options.callback,
     })
-  }
+  },
+  publish_list: function f(options) {
+  $.ajax({
+    type: 'post',
+    url: PUBLISH_LIST,
+    data: options.data,
+    contentType: false,
+    processData: false,
+    success: options.callback,
+  })
+}
 
 
 };

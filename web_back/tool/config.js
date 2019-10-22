@@ -14,3 +14,4 @@ const DEL_CATEGORY = BASE_USER + 'admin/category_delete';
 const GET_LIST = BASE_USER + 'admin/search';
 const DEL_LIST = BASE_USER + 'admin/article_delete';
 const EDIT_LIST = BASE_USER + 'admin/article_edit';
+const PUBLISH_LIST = BASE_USER + 'admin/article_publish';

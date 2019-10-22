@@ -23,62 +23,124 @@
     写文章
   </div>
   <div class="container-fluid common_con">
-    <form class="form-horizontal article_form">
+    <form class="form-horizontal article_form fd">
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
+        <label for="title" class="col-sm-2 control-label">文章标题：</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+          <input type="email" class="form-control" id="title" name="title" placeholder="文章标题">
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
+        <label for="cover" class="col-sm-2 control-label">文章封面：</label>
         <div class="col-sm-10">
-          <input type="file" id="exampleInputFile">
+          <img src="images/pic06.jpg" class="article_cover">
+          <input type="file" id="cover" name="cover">
         </div>
       </div>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
+        <label for="" class="col-sm-2 control-label">文章类别：</label>
         <div class="col-sm-4">
-          <select class="form-control">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select class="form-control" name="type" id="type">
+
           </select>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">发布时间：</label>
-        <div class="col-sm-4">
-
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
-            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"
-                                        onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
-                                        class="iconfont icon-icondate"></i></button>
-                            </span>
+        <label for="in" class="col-sm-2 control-label">发布时间：</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput" name="dateinput">
+              <span class="input-group-btn">
+                <button id="in" class="btn btn-default" type="button" onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})">
+                  <i class="iconfont icon-icondate"></i>
+                </button>
+              </span>
+            </div>
           </div>
-        </div>
       </div>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
+        <label for="rich_content" class="col-sm-2 control-label">文章内容：</label>
         <div class="col-sm-10">
-                        <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
-                            </textarea>
+          <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
+
+          </textarea>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-success">发布</button>
-          <button type="submit" class="btn btn-default">存为草稿</button>
+          <button type="submit" class="btn btn-success" value="已发布" id="fb">发布</button>
+          <button type="submit" class="btn btn-default" value="草稿" id="cg">存为草稿</button>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<script src="./js/art-template.js"></script>
+<script src="./tool/config.js"></script>
+<script src="./tool/article.js"></script>
+
+<script type="text/html" id="cate">
+  {{each data v}}
+
+  <option value="{{v.id}}"> {{v.name}}</option>
+
+  {{/each}}
+</script>
+
+<script>
+  const fd = new FormData($('.fd')[0]);
+  let title = fd.get('title');
+  let cover = fd.get('cover');
+  let type = fd.get('type');
+  let content = fd.get('content');
+  let date = fd.get('dateinput');
+
+  // 获取文章类别，渲染到页面
+  ARTICLE.get_category({
+    callback: function (res) {
+      if (res.code === 200) {
+        let cate = template('cate', res);
+        $('#type').html(cate);
+      }
+    }
+  });
+
+  //图片预览
+  $('#cover').on('change', function () {
+    let url = URL.createObjectURL(this.files[0]);
+    $('.article_cover').prop('src', url);
+  });
+
+  // 点击发布按钮
+  $('#fb').on('click', function (e) {
+    e.preventDefault();
+    let state1 = $('#fb').val();
+    fd.append('state', state1);
+    console.log(fd.get('state'));
+    ARTICLE.publish_list({
+      data: fd,
+      callback: function (res) {
+        console.log(res);
+      }
+    })
+
+  });
+
+  // 点击存为草稿
+  $('#cg').on('click', function (e) {
+    e.preventDefault();
+    let state2 = $('#cg').val();
+    fd.append('state', state2);
+    console.log(fd.get('state'));
+    ARTICLE.publish_list({
+      data: fd,
+      callback: function (res) {
+        console.log(res);
+      }
+    })
+  })
+</script>
 
 </body>
 
