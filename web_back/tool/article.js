@@ -74,6 +74,4 @@ const ARTICLE = {
     success: options.callback,
   })
 }
-
-
 };

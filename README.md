@@ -232,3 +232,10 @@
   //获取文件的临时地址
   let url = URL.createObjectURL(this.files[0]);
   ```
+
+## 前台部分
+
+### 1. 首页
+
+- 使用axios库，实现ajax
+- 将返回的数据渲染到页面，使用模板引擎
